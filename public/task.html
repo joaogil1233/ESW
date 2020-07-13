@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <title>Tarefa Taskerer</title>
+    <!-- Custom CSS -->
+    <link href="assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="dist/css/style.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full" data-boxed-layout="full">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar" data-navbarbg="skin6">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <div class="navbar-header" data-logobg="skin5">
+                    <!-- This is for the sidebar toggle which is visible on mobile only -->
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
+                        <i class="ti-menu ti-close"></i>
+                    </a>
+                    <!-- ============================================================== -->
+                    <!-- Logo -->
+                    <!-- ============================================================== -->
+                    <div class="navbar-brand">
+                        <a href="home.html" class="logo">
+                            <!-- Logo icon -->
+                            <b class="logo-icon" style="margin-left:5px">
+                                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                                <!-- Dark Logo icon -->
+                                <img src="images/taskererBig4.png" alt="homepage" class="dark-logo" />
+                                <!-- Light Logo icon -->
+                                <img src="images/taskererBig4.png" alt="homepage" class="light-logo" />
+                            </b>
+                            <!--End Logo icon -->
+                        </a>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- Toggle which is visible on mobile only -->
+                    <!-- ============================================================== -->
+                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="ti-more"></i>
+                    </a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin6">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav float-left mr-auto">
+                        <!-- ============================================================== -->
+                        <!-- Search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item search-box">
+                            <a class="nav-link waves-effect waves-dark" href="javascript:void(0)">
+                                <div class="d-flex align-items-center">
+                                    <i class="mdi mdi-magnify font-20 mr-1"></i>
+                                    <div class="ml-1 d-none d-sm-block">
+                                        <span>Procurar</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <form class="app-search position-absolute">
+                                <input type="text" class="form-control" placeholder="Procurar &amp; enter">
+                                <a class="srh-btn">
+                                    <i class="ti-close"></i>
+                                </a>
+                            </form>
+                        </li>
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- Right side toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav float-right">
+                        <!-- ============================================================== -->
+                        <!-- User profile and search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="images/profilePics/none.png" alt="user" id="userProfilePic" class="rounded-circle" width="31"></a>
+                            <div class="dropdown-menu dropdown-menu-right user-dd animated">
+                                <a class="dropdown-item clickable" href="javascript:void(0)"><i class="material-icons">person</i> Perfil</a>
+                                <a class="dropdown-item clickable" onclick="doLogout()" href="javascript:void(0)"><i class="material-icons">logout</i> Sair</a>
+                            </div>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- User profile and search -->
+                        <!-- ============================================================== -->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar" data-sidebarbg="skin5">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav" style="margin-top: 5px;">
+                    <ul id="sidebarnav">
+                        <li class="sidebar-item" >
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="home.html" aria-expanded="false">
+                                <i class="mdi mdi-av-timer"></i>
+                                <span class="hide-menu">Início</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item" active>
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="groups.html" aria-expanded="false">
+                                <i class="material-icons">people_alt</i><span class="hide-menu">Meus grupos</span>
+                            </a>
+                        </li>
+                         <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="groupInvites.html" aria-expanded="false">
+                                <i class="material-icons">inbox</i>
+                                <span class="hide-menu">Pedidos de grupo</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-5 align-self-center">
+                        <h4 class="page-title" id="groupName">Grupo Alpha</h4>
+                    </div>
+                    <div class="col-7 align-self-center">
+                        <div class="d-flex align-items-center justify-content-end">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="home.html">Início</a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="groups.html">Grupos</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">Tarefa</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                
+                <div class="row">
+                    <div class="card card-body">
+                        <h4 class="card-title" >
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <span id="taskName">Tarefa "Criação de template"</span>
+                                </div>
+                                <div class="col-md-3 col-sm-0">
+                                </div>
+                                <div class="col-md-3 col-sm-12">
+                                    <button type="button" id="btn_deleteTask" title="Remover tarefa" style="display:none;border-radius:30%;" class="float-right btn btn-danger"><i class="material-icons">delete</i> Apagar</button>
+                                    <button type="button" id="btn_editTask" title="Editar tarefa" style="display:none;border-radius:30%;margin-right:10px" class="float-right btn btn-primary"><i class="material-icons">edit</i> Editar</button>
+                                </div>
+
+                                <div class="col-md-3 col-sm-0">
+                                </div>
+                            </div>
+                        </h4>
+                        
+                        <br>
+                        <div class="row" style="font-size:20px">
+                            <div class="col-md-4 col-sm-12">
+                                <b><label >Criado por :&nbsp;</label></b><span id="updateTask-creatorName">João Alves</span>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <b><label >Data de criação :&nbsp;</label></b><span id="updateTask-createdAt">13-07-2020</span>
+                            </div>
+                            <div class="col-md-4 col-sm-12" id="hasBeenUpdated" style="display:none">
+                                <b><label >Data da ultima alteração :&nbsp;</label></b><span id="updateTask-updatedAt">13-07-2020</span>
+                            </div>
+                        </div>
+                        
+                        <div class="row" style="font-size:20px">
+                            <div class="col-md-4 col-sm-12">
+                                <b><label >Responsável :&nbsp;</label></b><span id="updateTask-assignedTo">João Alves</span>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <b><label >Estado :&nbsp;</label></b><span id="updateTask-status" class="label label-primary label-rounded">Em desenvolvimento</span>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <b><label >Prioridade :&nbsp;</label></b><span id="updateTask-priority" class="label label-warning label-rounded">Médio</span>
+                            </div>
+                        </div>
+                        <div class="row" style="font-size:20px;margin-top:20px">
+                            <div class="col-12">
+                                <h3>Descrição :</h3>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <p class="font-weight-light" id="updateTask-description">É necessário que seja desenvolvido um template para o nosso novo projeto.</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-lg-6" id="divSubtasks" style="display:block">
+                        <div class="card">
+                            <div class="card-body" >
+                                <h4 class="card-title">Subtarefas <button type="button" id="btn_createSubtask" title="Criar Sub-tarefa" style="display:none" class="float-right btn btn-info"><i class="material-icons">add</i> Add</button>
+                                </h4>
+                            </div>
+                            <div class="table-responsive">
+                                <input class="form-control" id="searchSubtasks" type="text" placeholder="Pesquisar..">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-top-0">NOME</th>
+                                            <th class="border-top-0">RESPONSÁVEL</th>
+                                            <th class="border-top-0">ESTADO</th>
+                                            <th class="border-top-0">DATA INÍCIO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id ="tbody_Subtasks">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- column -->
+                    
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Comentar</h4>
+                                    </div>
+                                    <textarea style="padding:20px" type="text" class="form-control" id="createTask_decription" placeholder="Comentário"></textarea>
+                                    <br>
+                                    <button type="button" id="btn_sendComment" title="Enviar comentário" style="display:block;width:110px" class="center btn btn-primary"><i class="material-icons">send</i> Enviar</button>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Comentários Recentes</h4>
+                                    </div>
+                                    <div class="comment-widgets" style="height:430px;">
+                                        <!-- Comment Row -->
+                                        <div class="d-flex flex-row comment-row m-t-0">
+                                            <div class="p-2">
+                                                <img src="assets/images/users/1.jpg" alt="user" width="50" class="rounded-circle">
+                                            </div>
+                                            <div class="comment-text w-100">
+                                                <span class="text-muted float-right">12:27  (04-07-2020)</span>
+                                                <h6 class="font-medium">João Martins</h6>
+                                                <span class="m-b-15 d-block">Está a correr tudo bem </span>
+                                            </div>
+                                        </div>
+                                        <!--End Comment Row -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center">
+                Todos os direitos para a equipa de desenvolvimento
+                <a href="team">Taskerer team</a>.
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="assets/libs/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="assets/extra-libs/sparkline/sparkline.js"></script>
+    <!--Wave Effects -->
+    <script src="dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="dist/js/custom.min.js"></script>
+    <!--This page JavaScript -->
+    <!--chartis chart-->
+    <script src="assets/libs/chartist/dist/chartist.min.js"></script>
+    <script src="assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="dist/js/pages/dashboards/dashboard1.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/task.js"></script>
+</body>
+
+<div id="waitingModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" >
+                <h3 class="modal-title " id="waitingModal-Title">Loading...</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body center"id="waitingModal-Message" >
+                <div class="spinner-border m-1" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="formModal" tabindex="-3"class="modal fade">
+    <div id="inviteUser" style="display:none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">Convidar pessoa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Email do utilizador: </label><input type="text" class="form-control" id="inviteUser_email" placeholder="exemplo@hotmail.com">
+                    <br>
+                    </div>
+                    <button type="button" id="btn_actionInviteUser" style="margin:0px 100px" class="btn btn-primary center">Convidar</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="createSubtask" style="display:none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">Criar Sub-Tarefa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Titúlo: </label><input type="text" class="form-control" id="createSubtask_title" placeholder="...">
+                        <br>
+                    </div>
+                    <div class="form-group">
+                        <label>Responsável: </label><select class="form-control" id="createSubtask_assignedTo">
+                            <option value="" disabled selected>Assignar tarefa a...</option>
+                        </select>
+                        <br>
+                    </div>
+                    <div class="form-group">
+                        <label>Prioridade: </label><select class="form-control" id="createSubtask_priority">
+                            <option value="0" >Baixa</option>
+                            <option value="1" selected>Média</option>
+                            <option value="2" >Alta</option>
+                        </select>
+                        <br>
+                    </div>
+                    <div class="form-group">
+                    <label>Descrição: </label><textarea type="text" class="form-control" id="createSubtask_decription" placeholder="Todos os detalhes sobre a tarefa"></textarea>
+                    <br>
+                    </div>
+                    <button type="button" id="btn_actionCreateSubtask"  style="margin:0px 100px" class="btn btn-primary center">Criar</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+
+
+</html>

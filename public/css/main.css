@@ -1,0 +1,31 @@
+.material-icons{
+    display: inline-flex;
+    vertical-align: middle;
+}
+.clickable:hover{
+    color:black;
+    cursor: pointer; 
+
+    font-weight: bold;
+    font-size:1.05em;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+.clickableIcon:hover{
+  color:blue;
+  cursor: pointer; 
+
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+  -o-transition: all 1s;
+  transition: all 1s;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
