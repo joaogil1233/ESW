@@ -93,7 +93,7 @@ function acceptGroupInvite(_NUser,_NGroup,acceptOrNot){
     xhr.open("POST", document.location.origin + "/acceptGroupInvite", true);
     xhr.onload = function () {
         if (xhr.readyState == 4 && xhr.status == "200") {
-            getGroupInvites(_NGroup);
+            location.reload();
         }
     }
     xhr.setRequestHeader('Content-Type', 'application/json');

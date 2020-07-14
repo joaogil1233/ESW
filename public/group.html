@@ -317,6 +317,27 @@
     </div>
 </div>
 <div id="formModal" tabindex="-3"class="modal fade">
+    <div id="changeRoles" style="display:none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">Modificar permissões de <span id="changeRoles-userName"></span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                <form>
+                    <input style="display:none" id="changeRoles_UserID" hidden>
+                    <div class="form-group">
+                        <label>Permissões:<small> Selecione todas as permissões (ctrl + clique) </small></label><select class="custom-select" id="changeRoles-allRoles" multiple>
+                          </select>
+                    <br>
+                    </div>
+                    <button type="button" id="btn_changeUserRoles" style="margin:0px 100px" class="btn btn-primary center">Guardar</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="inviteUser" style="display:none">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -364,7 +385,7 @@
                         <br>
                     </div>
                     <div class="form-group">
-                    <label>Descrição: </label><textarea type="text" class="form-control" id="createTask_decription" placeholder="Todos os detalhes sobre a tarefa"></textarea>
+                    <label>Descrição: </label><textarea type="text" class="form-control" id="createTask_description" placeholder="Todos os detalhes sobre a tarefa"></textarea>
                     <br>
                     </div>
                     <button type="button" id="btn_actionCreateTask"  style="margin:0px 100px" class="btn btn-primary center">Criar</button>

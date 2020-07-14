@@ -88,6 +88,11 @@ function getUserRoles(_NGroup){
     xhr.onload = function () {
         if (xhr.readyState == 4 && xhr.status == "200") {
             var roleIDS = xhr.response.roles;
+            if(roleIDS.includes(1)){
+                document.getElementById("btn_changeUserRoles").addEventListener("click", function () {
+                    changeUserRoles(_NGroup);
+                });
+            }
             
             if((roleIDS.includes(1) || roleIDS.includes(2))){
                 document.getElementById("btn_inviteUsers").style.display="block";
@@ -123,7 +128,6 @@ function getUsersInGroup(_NGroup,roleIDS){
     xhr.open("POST", document.location.origin + "/getUsersInGroup", true);
     xhr.onload = function () {
         if (xhr.readyState == 4 && xhr.status == "200") {
-            
             i=0;
             document.getElementById("divUsersGroup").style.display="block";
             var tbody = document.getElementById("tbody_usersInGroup");
@@ -212,12 +216,58 @@ function getUsersInGroup(_NGroup,roleIDS){
                     }
                     td.appendChild(icon);
 
+                    var icon = document.createElement("i"); 
+                    icon.style.cursor="pointer";
+                    if(userInGroupLine._LeaveDate=="" && userInGroupLine._NUser!=getCookie("_NUser")){
+
+                        icon.className="material-icons clickableIcon";
+                        icon.textContent="edit";
+                        icon.style="margin-left:10px"
+                        icon.title = "Editar utilizador";
+                        icon.addEventListener("click", function () {
+                            openChangeRoles(user._NUser,_NGroup);
+                        });
+                        
+                        td.appendChild(icon);
+                    }
+
                     tr.appendChild(td);
                     document.getElementById("colUserActions").style.display="block";
                 }
                 tbody.appendChild(tr);
                 i++;
             });
+        }
+    }
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(json));
+}
+function getSelectValues(select) {
+    var result = [];
+    var options = select && select.options;
+    var opt;
+  
+    for (var i=0, iLen=options.length; i<iLen; i++) {
+      opt = options[i];
+  
+      if (opt.selected) {
+        result.push(opt.value || opt.text);
+      }
+    }
+    return result;
+  }
+function changeUserRoles(_NGroup){
+    _NUser = document.getElementById("changeRoles_UserID").textContent;
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+
+    
+    roles=getSelectValues(document.getElementById("changeRoles-allRoles"));
+    var json = {"_NUser":_NUser,"_NGroup":_NGroup,"roles":roles};
+    xhr.open("POST", document.location.origin + "/changeRoles", true);
+    xhr.onload = function () {
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            location.reload();
         }
     }
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -306,11 +356,50 @@ function getTasks(_NGroup){
 
 function openInviteUser(_NGroup){
     document.getElementById("inviteUser").style.display="block";
+    document.getElementById("changeRoles").style.display="none";
     document.getElementById("createTask").style.display="none";
     $("#formModal").modal('show');
 }
+function openChangeRoles(_NUser,_NGroup){
+    document.getElementById("changeRoles").style.display="block";
+    document.getElementById("inviteUser").style.display="none";
+    document.getElementById("createTask").style.display="none";
+    document.getElementById("changeRoles_UserID").textContent=_NUser;
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    var json = {"_NGroup":_NGroup,"_NUser":_NUser};
+    xhr.open("POST", document.location.origin + "/getUserInGroup", true);
+    xhr.onload = function () {
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            document.getElementById("changeRoles-userName").textContent=xhr.response.user._Name;
+            
+            
+            select = document.getElementById("changeRoles-allRoles");
+            select.innerHTML="";
+            xhr.response.roles.forEach(function (role) {
+                var option = document.createElement("option");
+                option.value=role._NRole;
+                option.innerHTML=role._Name;
+                //alert(xhr.response.userRoles);
+                if (xhr.response.userRoles.filter(e => e._NRole == role._NRole).length > 0) {
+                    option.selected=true;
+                    /* vendors contains the element we're looking for */
+                }
+                select.appendChild(option);
+            });
+            $("#formModal").modal('show');
+        }
+    }
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(json));
+
+}
+
+
+
 function openCreateTask(){
     document.getElementById("inviteUser").style.display="none";
+    document.getElementById("changeRoles").style.display="none";
     document.getElementById("createTask").style.display="block";
     $("#formModal").modal('show');
     var xhr = new XMLHttpRequest();
@@ -376,7 +465,7 @@ function createTask(_NGroup){
     _NAssignedUser = document.getElementById("createTask_assignedTo").value;
     _NPriority = document.getElementById("createTask_priority").value;
     _NCreatorUser = getCookie("_NUser");
-    _Desc = document.getElementById("createTask_decription").value;
+    _Desc = document.getElementById("createTask_description").value;
     $("#formModal").modal('hide');
     $("#waitingModal").modal('show');
     if(_Name=="" ||_NAssignedUser=="" ||_NPriority=="" ||_Desc=="" ){

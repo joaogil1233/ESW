@@ -22,6 +22,7 @@ const tasks = require('../models/tasks');
 const status = require('../models/status');
 const priorities = require('../models/priorities');
 const subtasks = require('../models/subtasks');
+const comments = require('../models/comments');
 
 
 const { query } = require('express');
@@ -209,6 +210,7 @@ module.exports.getTask = getTask;
 
 
 
+
 function createGroup(req, res) {
   groups.find({}).sort('_NGroup').exec(function (err, docs) {
     if (docs.length == 0) {
@@ -262,6 +264,27 @@ function getGroup(req, res) {
 }
 module.exports.getGroup = getGroup;
 
+function getUserInGroup(req, res) {
+  _NGroup = parseInt(req.body._NGroup);
+  _NUser = parseInt(req.body._NUser);
+  userGroups.find({"_NGroup":_NGroup}, (err, myUsersInGroup) => {
+    users.find({"_NUser":_NUser}, (err, myUser) => {
+      userRoles.find({"_NUser":_NUser,"_NGroup":_NGroup}, (err, userRoles) => {
+        roles.find({}, (err, allRules) => {
+          res.json({
+            "Message": "Success",
+            "user":myUser[0],
+            "userGroup":myUsersInGroup,
+            "userRoles":userRoles,
+            "roles":allRules
+          });
+        });
+      });
+    });    
+  });
+}
+module.exports.getUserInGroup = getUserInGroup;
+
 
 function getUsersInGroup(req, res) {
   _NGroup = parseInt(req.body._NGroup);
@@ -285,17 +308,35 @@ module.exports.getUsersInGroup = getUsersInGroup;
 function getUserRoles(req, res) {
   _NUser = parseInt(req.body._NUser);
   _NGroup = parseInt(req.body._NGroup);
-  userRoles.find({"_NUser":_NUser,"_NGroup":_NGroup}, (err, myUserRoles) => {
-    roleIDS = myUserRoles.map(function (line) {  return line._NRole   });
-    users.find({"_NUser":_NUser}, (err, myUsers) => {
-      res.json({
-        "Message": "Success",
-        "roles":roleIDS
-      });
-    });    
+  _NTask = parseInt(req.body._NTask);
+  
+  tasks.find({"_NTask":_NTask,"_NAssignedUser":_NUser}, (err, isAssigned) => {
+    userRoles.find({"_NUser":_NUser,"_NGroup":_NGroup}, (err, myUserRoles) => {
+      roleIDS = myUserRoles.map(function (line) {  return line._NRole   });
+      users.find({"_NUser":_NUser}, (err, myUsers) => {
+        res.json({
+          "Message": "Success",
+          "roles":roleIDS,
+          "isAssigned":isAssigned
+        });
+      });  
+    });
   });
 }
 module.exports.getUserRoles = getUserRoles;
+
+
+function getStatus(req, res) {
+  _NUser = parseInt(req.body._NUser);
+  _NGroup = parseInt(req.body._NGroup);
+  status.find({}, (err, myStatus) => {
+    res.json({
+      "Message": "Success",
+      "status":myStatus
+    });
+  });
+}
+module.exports.getStatus = getStatus;
 
 function getGroupInvites(req, res) {
   _NUser = parseInt(req.body._NUser);
@@ -356,6 +397,22 @@ function acceptGroupInvite(req, res) {
 }
 module.exports.acceptGroupInvite = acceptGroupInvite;
 
+function cleanBD() {
+  userRoles.deleteMany({}, function (err) {
+    userGroups.deleteMany({}, function (err) {
+      comments.deleteMany({}, function (err) {
+        tasks.deleteMany({}, function (err) {
+          subtasks.deleteMany({}, function (err) {
+            groups.deleteMany({}, function (err) {
+            });
+          });
+        });
+      });
+    });
+  });
+  return;
+}
+module.exports.cleanBD = cleanBD;
 
 function createTask(req, res) {
   tasks.find({}).sort('_NTask').exec(function (err, docs) {
@@ -373,6 +430,39 @@ function createTask(req, res) {
 }
 module.exports.createTask = createTask;
 
+function updateTask(req, res) {
+  nowDate = getDate();
+  tasks.findOneAndUpdate({"_NTask":req.body._NTask}, { "_Name": req.body._Name,"_Desc": req.body._Desc, "_NAssignedUser": parseInt(req.body._NAssignedUser),"_NStatus": parseInt(req.body._NStatus),"_NPriority": parseInt(req.body._NPriority),"_UpdatedAt": nowDate}, function (err, result) {
+    res.json({ "Message": "Success"});
+    return;
+  });
+}
+module.exports.updateTask = updateTask;
+
+function deleteTask(req, res) {
+  _NTask = req.body._NTask;
+  comments.deleteMany({"_NTask":_NSubtask}, function (err) {
+    subtasks.deleteMany({"_NTask":_NTask}, function (err) {
+      tasks.deleteMany({"_NTask":_NTask}, function (err) {
+        res.json({ "Message": "Success"});
+      });
+    });
+  });
+}
+module.exports.deleteTask = deleteTask;
+
+function deleteSubtask(req, res) {
+  _NSubtask = req.body._NTask;
+  comments.deleteMany({"_NSubtask":_NSubtask}, function (err) {
+    subtasks.deleteMany({"_NTask":_NTask}, function (err) {
+      res.json({ "Message": "Success"});
+    });
+  });
+}
+module.exports.deleteSubtask = deleteSubtask;
+
+
+
 function createSubtask(req, res) {
   subtasks.find({}).sort('_NSubtask').exec(function (err, docs) {
     if (docs.length == 0) {
@@ -389,8 +479,91 @@ function createSubtask(req, res) {
 }
 module.exports.createSubtask = createSubtask;
 
+function getCommentsForTask(req, res) {
+  _NTask = parseInt(req.body._NTask);
+  comments.find({"_NTask":_NTask}, (err, myComments) => {
+    userIDS = myComments.map(function (comment) {  return comment._NUser });
+    users.find({"_NUser":{"$in":userIDS}}, (err, myUsers) => {
+      res.json({
+        "Message": "Success",
+        "comments":myComments,
+        "users":myUsers
+      });
+    });    
+  });
+}
+module.exports.getCommentsForTask = getCommentsForTask;
+
+function getCommentsForSubtask(req, res) {
+  _NSubtask = parseInt(req.body._NSubtask);
+  comments.find({"_NSubtask":_NSubtask}, (err, myComments) => {
+    userIDS = myComments.map(function (comment) {  return comment._NUser });
+    users.find({"_NUser":{"$in":userIDS}}, (err, myUsers) => {
+      res.json({
+        "Message": "Success",
+        "comments":myComments,
+        "users":myUsers
+      });
+    });    
+  });
+}
+module.exports.getCommentsForSubtask = getCommentsForSubtask;
+
+function createComment(req, res) {
+  comments.find({}).sort('_NComment').exec(function (err, docs) {
+    if (docs.length == 0) {
+      var nextNComment = 0;
+    } else {
+      var nextNComment = parseInt(docs[docs.length - 1]._NComment);
+      nextNComment += 1;
+    }
+    var datetime = getTime() + "  ("+getDate()+")";
+    var newComment = new comments({ "_NComment": nextNComment,"_NTask": req.body._NTask,"_NSubtask": req.body._NSubtask, "_NUser": req.body._NUser, "_Message": req.body._Comment,"_Datetime": datetime});
+    comments.create(newComment);
+    res.json({ "Message": "Success" });
+    return;
+  });
+}
+module.exports.createComment = createComment;
 
 
+
+
+function changeRoles(req, res) {
+  _NUser = parseInt(req.body._NUser);
+  _NGroup = parseInt(req.body._NGroup);
+  myRoles = req.body.roles;
+  userRoles.deleteMany({"_NUser":_NUser,"_NGroup":_NGroup}, function (err) {
+    myRoles.forEach(element => {
+      var newUserRole = new userRoles({ "_NUser": _NUser, "_NGroup": _NGroup, "_NRole": element});
+      userRoles.create(newUserRole);
+    });
+    res.json({ "Message": "Success"});
+  });
+
+
+  return;
+  if(block==true){
+    nowDate = getDate();
+  }else{
+    nowDate = "";
+  }
+  userGroups.find({"_NUser":_NUser,"_NGroup":_NGroup,"_Accepted":false,"_JoinDate":NULLDATE}, (err, invitedUser) => {
+    if(invitedUser.length>0){
+      userGroups.deleteOne({"_NUser":_NUser,"_NGroup":_NGroup,"_Accepted":false,"_JoinDate":NULLDATE}, function (err) {
+        userRoles.deleteMany({"_NUser":_NUser,"_NGroup":_NGroup}, function (err) {
+          res.json({ "Message": "Success"});
+        });
+      });
+    }else{
+      userGroups.findOneAndUpdate({"_NUser":_NUser,"_NGroup":_NGroup}, {"_LeaveDate":nowDate}, function (err, result) {
+        res.json({ "Message": "Success"});
+      });
+    }
+  });
+  
+}
+module.exports.changeRoles = changeRoles;
 
 function getDate(){
   var today = new Date();
@@ -400,4 +573,14 @@ function getDate(){
   
   today = dd + '-' + mm + '-' + yyyy;
   return today;
+}
+
+function getTime(){
+  var today = new Date();
+  var hh = String(today.getHours());
+  var mm = String(today.getMinutes());
+  var ss = String(today.getSeconds());
+  
+  time = hh + ':' + mm + ':' + ss;
+  return time;
 }

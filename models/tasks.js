@@ -10,7 +10,8 @@ var TasksSchema = new mongoose.Schema({
   _NAssignedUser:{type:Number},
   _NStatus:{type:Number},
   _NPriority:{type:Number},
-  _CreatedAt:{type:String}
+  _CreatedAt:{type:String},
+  _UpdateAt:{type:String}
 }, {timestamps: true});
 
 module.exports = mongoose.model('tasks', TasksSchema, 'tasks');

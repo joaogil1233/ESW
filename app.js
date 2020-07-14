@@ -37,6 +37,16 @@ app.use('/getTasks',indexRouter.getTasks);
 app.use('/getTask',indexRouter.getTask);
 app.use('/getSubTasks',indexRouter.getSubTasks);
 app.use('/createSubtask',indexRouter.createSubtask);
+app.use('/getStatus',indexRouter.getStatus);
+app.use('/updateTask',indexRouter.updateTask);
+app.use('/deleteTask',indexRouter.deleteTask);
+app.use('/deleteSubtask',indexRouter.deleteSubtask);
+app.use('/createComment',indexRouter.createComment);
+app.use('/getCommentsForSubtask',indexRouter.getCommentsForSubtask);
+app.use('/getCommentsForTask',indexRouter.getCommentsForTask);
+app.use('/getUserInGroup',indexRouter.getUserInGroup);
+app.use('/changeRoles',indexRouter.changeRoles);
+
 
 
 
