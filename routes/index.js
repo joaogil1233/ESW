@@ -441,7 +441,7 @@ module.exports.updateTask = updateTask;
 
 function deleteTask(req, res) {
   _NTask = req.body._NTask;
-  comments.deleteMany({"_NTask":_NSubtask}, function (err) {
+  comments.deleteMany({"_NTask":_NTask}, function (err) {
     subtasks.deleteMany({"_NTask":_NTask}, function (err) {
       tasks.deleteMany({"_NTask":_NTask}, function (err) {
         res.json({ "Message": "Success"});
@@ -454,7 +454,7 @@ module.exports.deleteTask = deleteTask;
 function deleteSubtask(req, res) {
   _NSubtask = req.body._NTask;
   comments.deleteMany({"_NSubtask":_NSubtask}, function (err) {
-    subtasks.deleteMany({"_NTask":_NTask}, function (err) {
+    subtasks.deleteMany({"_NSubtask":_NSubtask}, function (err) {
       res.json({ "Message": "Success"});
     });
   });
